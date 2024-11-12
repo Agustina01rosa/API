@@ -1,27 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-let usuarios = [];
-
-// agregar usuario
-router.post('/', (req, res) => {
-    const usuario = {
-        nombre: req.body.nombre,
-        apellido: req.body.apellido,
-        dni: req.body.dni,
-        correo: req.body.correo,
-        contrasena: req.body.contrasena,
-        fecha_registro: req.body.fecha_registro,
-        numero_telefono: req.body.numero_telefono,
-        direccion: req.body.direccion
-    };
-    usuarios.push(usuario);
-    res.status(201).send({ mensaje: 'Usuario CREADO:)' });
-});
-
-//obtener todos los usuarios
+// Rutas para gestión de usuarios
 router.get('/', (req, res) => {
-    res.status(200).send({ usuarios });
+  res.send('Listado de usuarios');
+});
+router.post('/', (req, res) => {
+  res.send('Usuario creado');
 });
 
 module.exports = router;

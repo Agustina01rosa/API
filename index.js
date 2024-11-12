@@ -1,38 +1,28 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const usuariosRouter = require('./router/usuario');
-const mongoose = require('mongoose');
-
 const app = express();
-const PORT = 8081;
+const usuarioRoutes = require('./router/usuario');
+const saldoRoutes = require('./router/saldo');
+const ingresosRoutes = require('./router/ingresos');
+const gastosRoutes = require('./router/gastos');
+const reportesRoutes = require('./router/reportes');
+const balancesGeneralesRoutes = require('./router/balancesgenerales');
 
-app.use(bodyParser.json());
+// Middleware para parsear JSON
 app.use(express.json());
 
-// Rus
-app.use('/API/usuario', usuariosRouter);
-app.use('/api', saldo);
+// Configurando las rutas
+app.use('/usuario', usuarioRoutes);
+app.use('/saldo', saldoRoutes);
+app.use('/ingresos', ingresosRoutes);
+app.use('/gastos', gastosRoutes);
+app.use('/reportes', reportesRoutes);
+app.use('/balancesgenerales', balancesGeneralesRoutes);
 
-const saldo = require('');
-
-// Conectar la API de saldo
-app.use('/api', saldo);
-
+// Servidor en puerto 3000
+const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-  console.log(`Servidor escuchando en http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
-
-
-app.use(bodyParser.json());
-
-// Conexión a BDDDD
-mongoose.connect('mongodb://localhost:8081gestionSaldo', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log("Conectado a MongoDB"))
-  .catch(err => console.log(err));
-
 
 
 
