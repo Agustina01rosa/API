@@ -7,7 +7,15 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  res.send('Ingreso registrado');
+  const { id, fecha, descripcion, categoria, metodoPago, usuario } = req.body;
+
+  // Validación básica de los campos
+  if (!id || !fecha || !descripcion || !categoria || !metodoPago || !usuario) {
+    return res.status(400).send('Todos los campos son obligatorios');
+  }
+
+  // Aquí se procesaría la lógica para almacenar los datos en la base de datos
+  res.status(201).send('Ingreso registrado con éxito');
 });
 
 module.exports = router;
