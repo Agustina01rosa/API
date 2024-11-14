@@ -1,0 +1,10 @@
+[
+    {
+      "id": 1,
+      "fecha": "14 de noviembre",
+      "monto": "5000",
+      "descripcion": "compre un auricular",
+      "categoria": "electronica",
+      "metodoPago": "online"
+    }
+  ]

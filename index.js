@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const fs = require('fs');
+const path = require('path');
 const usuarioRoutes = require('./router/usuario');
 const saldoRoutes = require('./router/saldo');
 const ingresosRoutes = require('./router/ingresos');
@@ -11,14 +13,14 @@ const categoriaIngresosRoutes = require('./router/categoriaingresos');
 // Middleware para parsear JSON
 app.use(express.json());
 
-// Configurando las rutas
-app.use('/usuario', usuarioRoutes);
-app.use('/saldo', saldoRoutes);
-app.use('/ingresos', ingresosRoutes);
-app.use('/gastos', gastosRoutes);
-app.use('/reportes', reportesRoutes);
-app.use('/balancesgenerales', balancesGeneralesRoutes);
-app.use('/categoriaIngresos', categoriaIngresosRoutes);
+// RUTAS:
+app.use('/API/usuario', usuarioRoutes);
+app.use('/API/saldo', saldoRoutes);
+app.use('/API/ingresos', ingresosRoutes);
+app.use('/API/gastos', gastosRoutes);
+app.use('/API/reportes', reportesRoutes);
+app.use('/API/balancesgenerales', balancesGeneralesRoutes);
+app.use('/API/categoriaIngresos', categoriaIngresosRoutes);
 
 // Servidor en puerto 3000
 const PORT = 3000;

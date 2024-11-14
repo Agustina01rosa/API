@@ -1,32 +1,75 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
+const path = require('path');
+const filePath = './data/gastos.json';
 
-// Rutas para gestionar gastos
+
+// Helper function to read data from the JSON file
+const readData = () => {
+  if (fs.existsSync(dataPath)) {
+    const data = fs.readFileSync(dataPath);
+    return JSON.parse(data);
+  } else {
+    return [];
+  }
+};
+
+// Helper function to write data to the JSON file
+const writeData = (data) => {
+  fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+};
+
+// GET all gastos
 router.get('/', (req, res) => {
-  res.send('Listado de gastos');
+  const gastos = readData();
+  res.json(gastos);
+});
+// POST a new gasto
+router.post('/agregue', (req, res) => {
+  const gastos = readData();
+  const newGasto = {
+    id: gastos.length + 1,
+    fecha: req.body.fecha,
+    monto: req.body.monto,
+    descripcion: req.body.descripcion,
+    categoria: req.body.categoria,
+    metodoPago: req.body.metodoPago,
+    usuario: req.body.usuario
+  };
+
+  gastos.push(newGasto);
+  writeData(gastos);
+
+  res.status(201).json(newGasto);
 });
 
-router.post('/', (req, res) => {
-  const { id, fecha, monto, descripcion, categoria, metodoPago, usuario } = req.body;
-
-  // Validación básica de los campos
-  if (!id || !fecha || !monto || !descripcion || !categoria || !metodoPago || !usuario) {
-    return res.status(400).send('Todos los campos son obligatorios');
+// PUT to update a gasto by ID
+router.put('/:id', (req, res) => {
+  const gastos = readData();
+  const id = parseInt(req.params.id);
+  const index = gastos.findIndex(g => g.id === id);
+  if (index !== -1) {
+    gastos[index] = { ...gastos[index], ...req.body };
+    writeData(gastos);
+    res.json(gastos[index]);
+  } else {
+    res.status(404).json({ message: 'Gasto no encontrado' });
   }
+});
 
-  // Verificación de categorías y métodos de pago válidos
-  const categoriasValidas = ['comidas/bebidas', 'electronica', 'cuentas/servicios', 'indumentaria', 'transporte', 'suscripción', 'otro'];
-  const metodosPagoValidos = ['fisico', 'online'];
+// DELETE a gasto by ID
+router.delete('/:id', (req, res) => {
+  const gastos = readData();
+  const id = parseInt(req.params.id);
+  const updatedGastos = gastos.filter(g => g.id !== id);
 
-  if (!categoriasValidas.includes(categoria)) {
-    return res.status(400).send('Categoría no válida');
+  if (gastos.length !== updatedGastos.length) {
+    writeData(updatedGastos);
+    res.json({ message: 'Gasto eliminado' });
+  } else {
+    res.status(404).json({ message: 'Gasto not found' });
   }
-  if (!metodosPagoValidos.includes(metodoPago)) {
-    return res.status(400).send('Método de pago no válido');
-  }
-
-  // Aquí se procesaría la lógica para almacenar los datos en la base de datos
-  res.status(201).send('Gasto registrado con éxito');
 });
 
 module.exports = router;

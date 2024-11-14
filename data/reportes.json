@@ -1,0 +1,13 @@
+[
+  {
+    "id": 123489,
+    "titulo": "tiroteo",
+    "descripcion": "me mataron",
+    "tipoReporte": "asesinato",
+    "fechaCreacion": "hoy",
+    "fecha": "ayer",
+    "estado": "critico",
+    "archivo": "nuevo",
+    "totalReportes": 2
+  }
+]
